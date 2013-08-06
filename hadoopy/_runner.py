@@ -48,10 +48,7 @@ def _find_hstreaming():
     global WARNED_HADOOP_HOME, HADOOP_STREAMING_PATH_CACHE
     if HADOOP_STREAMING_PATH_CACHE:
         return HADOOP_STREAMING_PATH_CACHE
-    try:
-        search_root = os.environ['HADOOP_HOME']
-    except KeyError:
-        search_root = '/'
+    search_root = os.environ.get('HADOOP_HOME', '/')
     cmd = 'find %s -name hadoop*streaming*.jar' % (search_root)
     p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
