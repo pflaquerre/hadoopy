@@ -185,7 +185,10 @@ def launch(in_name, out_name, script_path, partitioner=False, files=(), jobconfs
     try:
         hadoop_cmd = 'hadoop jar ' + hstreaming
     except TypeError:
-        hadoop_cmd = 'hadoop jar ' + _find_hstreaming()
+        hstreaming = _find_hstreaming()
+        if hstreaming == '':
+            raise OSError('Could not find hadoop streaming jar in "%s"' % os.environ.get('HADOOP_HOME', '/'))
+        hadoop_cmd = 'hadoop jar ' + hstreaming
     if remove_ext:
         script_name = script_name.rsplit('.', 1)[0]
     if add_python:
